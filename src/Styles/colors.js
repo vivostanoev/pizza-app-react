@@ -1,0 +1,1 @@
+export const redPizza = "#f44336"
