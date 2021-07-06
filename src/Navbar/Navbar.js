@@ -6,6 +6,8 @@ import {Title} from "../Styles/title.js"
 const NavbarStyled = styled.div`
     background-color:${redPizza};
     padding: 10px;
+    position: fixed;
+    width: 100%;
 `
 
 const Logo = styled(Title)`
@@ -16,6 +18,6 @@ const Logo = styled(Title)`
 
 export function Navbar(){
     return <NavbarStyled>
-        <Logo>Pizza app 🍕</Logo>
+        <Logo id="title">Pizza app 🍕</Logo>
     </NavbarStyled>
 }
