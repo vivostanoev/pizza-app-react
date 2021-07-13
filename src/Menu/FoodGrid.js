@@ -13,7 +13,7 @@ export const FoodLabel = styled(Title)`
   padding: 5px;
 `;
 
-export const Food = styled(Title)`
+export const Food = styled.div`
     height: 120px;
     padding: 10px;
     font-size: 20px;
@@ -24,7 +24,7 @@ export const Food = styled(Title)`
     transition-property: box-shadow margin-top filter;
     transition-duration: .1s;
     filter: contrast(75%);
-    border-radius: 15px;
+    border-radius: 7px;
     box-shadow: 0px 0px 3px 1px grey;
     &:hover {
         cursor: pointer;
