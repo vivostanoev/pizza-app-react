@@ -43,7 +43,7 @@ const DetailItem = styled.div`
     font-size: 10px;
 `;
 
-export function Order({orders}) {
+export function Order({orders, setOrders, setOpenFood}) {
 
     const subtotal = orders.reduce((total, order) => {
         return total += getPrice(order);
@@ -52,16 +52,25 @@ export function Order({orders}) {
     const tax = subtotal * 0.10;
     const total = tax + subtotal;
 
+    const deleteItem = index => {
+        const newOrders = [...orders];
+        newOrders.splice(index,1);
+        setOrders(newOrders);
+    }
+
     return (<OrderStyled>
             {orders.length == 0 ? (<OrderContent> Your order`s empty </OrderContent>)
             : (<OrderContent>
                     <OrderContainer>Your Order: </OrderContainer>
-                    {orders.map(order => (
+                    {orders.map((order,index) => (
                      <OrderContainer>
-                        <OrderItem>
+                        <OrderItem onClick={() => setOpenFood({...order,index})}>
                             <div>{order.quantity}</div>
                             <div>{order.name}</div>
-                            <div></div>
+                            <div style={{cursor: 'pointer'}} onClick={e => {
+                                e.stopPropagation();
+                                deleteItem(index);}}>
+                            🗑️ </div>
                             <div>{formatPrice(getPrice(order))}</div>
                         </OrderItem>
                         <DetailItem>
