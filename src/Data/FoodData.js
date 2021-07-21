@@ -53,6 +53,12 @@ export const foodItems = [
     name: "Fries",
     section: "sides",
     price: 2
+  },
+  {
+    name: "Soda",
+    section: "Drinks",
+    choices: ['Coke', 'Sprite', 'Beer'],
+    price: 1
   }
 ];
 

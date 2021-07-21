@@ -68,6 +68,7 @@ export function Order({orders}) {
                         {
                             order.toppings.filter(t => t.checked).map(topping => topping.name).join(", ")
                         }
+                        {order.choice && <DetailItem>{order.choice}</DetailItem>}
                         </DetailItem>
                      </OrderContainer>
                     ))}
