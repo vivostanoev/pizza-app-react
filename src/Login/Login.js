@@ -1,0 +1,128 @@
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+import styled from "styled-components";
+import {Dialog, DialogShadow, DialogContent, ConfirmButton}  from "../FoodDialog/FoodDialog.js";
+import {Title} from "../Styles/title.js"
+
+export const LoginBar = styled(Title)`
+    font-size: 20px;
+    color: white;
+    padding-right: 30px;
+    text-shadow: 1px 1px 4px black;
+    float: right;
+     &:hover {
+            cursor: pointer;
+            filter: contrast(100%);
+            margin-top:0px;
+            margin-bottom:5px;
+        }
+`;
+
+const Wrapper = styled(Dialog)`
+    width: 500px;
+    max-height: 450px;
+`;
+
+const Form = styled.form`
+  margin: 0 auto;
+  width: 100%;
+  max-width: 414px;
+  padding: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+`;
+
+const LoginButton = styled(ConfirmButton)`
+    margin: 50px;
+    padding: 25px;
+`;
+
+const Input = styled.input`
+  max-width: 100%;
+  padding: 13px 15px;
+  background: #f9f9fa;
+  color: black;
+  margin-bottom: 0.9rem;
+  border-radius: 4px;
+  outline: 0;
+  border: 1px solid rgba(245, 245, 245, 0.7);
+  font-size: 20px;
+  transition: all 0.3s ease-out;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.1);
+  :focus,
+  :hover {
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.15), 0 1px 5px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+function handleSubmit() {
+ console.log("gl");
+}
+
+
+ function LoginForm({username, setUsername, setIsOpen, password, setPassword, setIsLogin}) {
+
+ function close()
+ {
+    setIsOpen();
+    setUsername();
+    setPassword();
+    setIsLogin();
+ }
+
+ function printUserCred()
+ {
+     fetchingDate(username, password, setIsOpen,setIsLogin);
+ }
+
+  return (
+    <>
+    <DialogShadow onClick={close}/>
+      <Wrapper>
+        <Form onSubmit={handleSubmit}>
+        <DialogContent>
+            <h2> Username </h2>
+          <Input
+            type="email"
+            name="email"
+            onChange={e => setUsername(e.target.value)}
+          />
+           <h2> Password </h2>
+          <Input
+            type="password"
+            name="password"
+            onChange={e => setPassword(e.target.value)}
+          />
+           <LoginButton onClick={()=> printUserCred()}>Login</LoginButton>
+         </DialogContent>
+        </Form>
+      </Wrapper>
+    </>
+  );
+}
+
+
+export function Login(props) {
+  if (!props.isOpen) return null;
+  return <LoginForm {...props} />;
+}
+
+
+ function fetchingDate(user, pswd, setIsOpen, setIsLogin) {
+    fetch("http://localhost:5000/api/users", {
+         method: "POST",
+         body: JSON.stringify({username: user, password: pswd}),
+         headers: {"Content-Type": "application/json"}})
+      .then(
+        (result) => {
+            if (result.status==200)
+            {
+                setIsOpen(false);
+                setIsLogin(true);
+            }
+        },
+        (error) => {
+        }
+      )
+  }

@@ -12,7 +12,7 @@ import { useChoice } from "../Hooks/useChoice";
 import { Choices } from "./Choices";
 
 
-const Dialog = styled.div`
+export const Dialog = styled.div`
   width: 500px;
   background-color: white;
   position: fixed;
@@ -33,7 +33,7 @@ const DialogBanner = styled.div`
     background-size:cover;
 `;
 
-const DialogShadow = styled.div`
+export const DialogShadow = styled.div`
     position: fixed;
     height: 100%;
     width: 100%;

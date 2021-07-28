@@ -8,19 +8,29 @@ import React, {useState} from "react"
 import { useOpenFood } from "./Hooks/useOpenFood";
 import { useOrders } from "./Hooks/useOrders";
 import { useTitle } from "./Hooks/useTitle";
+import { useUser } from "./Hooks/useUser";
+import {Login} from "./Login/Login.js";
+import { useOpenLogin } from "./Hooks/useOpenLogin";
+import { usePassword } from "./Hooks/usePassword";
+import { useLoginUser } from "./Hooks/useLoginUser";
 
 
 function App() {
     const openFood = useOpenFood();
     const orders = useOrders();
     useTitle({...openFood, ...orders});
+    const user = useUser();
+    const isLoginFormOpen = useOpenLogin();
+    const userPassword = usePassword();
+    const isLoginUser = useLoginUser();
 
   return (
     <>
         <GlobalStyle/>
         <FoodDialog {...openFood} {...orders}/>
-        <Navbar/>
-        <Order {...orders} {...openFood}/>
+        <Navbar {...isLoginUser} {...isLoginFormOpen}/>
+        <Login {...user} {...isLoginFormOpen} {...userPassword} {...isLoginUser}/>
+        <Order {...orders} {...openFood} {...user} {...isLoginFormOpen}/>
         <Banner/>
         <Menu {...openFood}/>
     </>

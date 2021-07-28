@@ -8,7 +8,7 @@ import {
 import {formatPrice} from "../Data/FoodData.js"
 import {getPrice} from "../FoodDialog/FoodDialog.js";
 
-const OrderStyled = styled.div`
+export const OrderStyled = styled.div`
   position: fixed;
   right: 0px;
   top: 48px;
@@ -43,11 +43,19 @@ const DetailItem = styled.div`
     font-size: 10px;
 `;
 
-export function Order({orders, setOrders, setOpenFood}) {
+export function Order({orders, setOrders, setOpenFood, username, setIsOpen}) {
 
     const subtotal = orders.reduce((total, order) => {
         return total += getPrice(order);
     },0);
+
+    function isUserLogin(){
+        if(!username)
+        {
+            setOpenFood();
+            setIsOpen(true);
+        }
+    }
 
     const tax = subtotal * 0.10;
     const total = tax + subtotal;
@@ -100,7 +108,7 @@ export function Order({orders, setOrders, setOpenFood}) {
                     </OrderContainer>
                 </OrderContent>)}
             <DialogFooter>
-                <ConfirmButton>Checkout</ConfirmButton>
+                <ConfirmButton onClick={() => isUserLogin()}>Checkout</ConfirmButton>
             </DialogFooter>
     </OrderStyled>);
 }
