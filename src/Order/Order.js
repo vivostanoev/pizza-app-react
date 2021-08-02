@@ -74,7 +74,7 @@ export function Order({orders, setOrders, setOpenFood, username, setIsOpen,setHi
     }
 
     return (<OrderStyled>
-            {orders.length == 0 ? (<OrderContent> Your order`s empty </OrderContent>)
+            {orders.length === 0 ? (<OrderContent> Your order`s empty </OrderContent>)
             : (<OrderContent>
                     <OrderContainer>Your Order: </OrderContainer>
                     {orders.map((order,index) => (

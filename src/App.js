@@ -4,7 +4,7 @@ import { Banner } from "./Banner/Banner.js"
 import { Menu } from "./Menu/Menu.js"
 import { FoodDialog } from "./FoodDialog/FoodDialog.js"
 import { Order } from "./Order/Order.js"
-import React, {useState} from "react"
+import React from "react"
 import { useOpenFood } from "./Hooks/useOpenFood";
 import { useOrders } from "./Hooks/useOrders";
 import { useTitle } from "./Hooks/useTitle";

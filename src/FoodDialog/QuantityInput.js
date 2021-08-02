@@ -40,7 +40,7 @@ export function QuantityInput({quantity}){
     <div>Quantity: </div>
     <IncrementButton onClick={() => {
         quantity.setValue(quantity.value-1);
-    }} disabled={quantity.value==1}> - </IncrementButton>
+    }} disabled={quantity.value===1}> - </IncrementButton>
     <InputQuantity {...quantity}></InputQuantity>
     <IncrementButton onClick={() => {
         quantity.setValue(quantity.value+1);

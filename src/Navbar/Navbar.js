@@ -3,8 +3,6 @@ import styled from "styled-components"
 import {redPizza} from "../Styles/colors.js"
 import {Title} from "../Styles/title.js"
 import { LoginBar } from "../Login/Login.js";
-import { useState } from "react";
-import PropTypes from 'prop-types';
 
 const NavbarStyled = styled.div`
     background-color:${redPizza};
@@ -45,7 +43,7 @@ function LoginButton({isLogin,setIsLogin,setIsOpen,username, setUsername,isHisto
     }else {
         return [(<LoginBar id="loginButton" onClick={() => setIsLogin(false)}>{username}/Logout</LoginBar>),
         ,(<LoginBar onClick={() => isHistory ? setIsHistory(false) : setIsHistory(true)}>
-       {isHistory ? 'Menu': 'History'}
+        {isHistory ? 'Menu' : 'History'}
        </LoginBar>)];
     }
 }

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
 import styled from "styled-components";
 import {Dialog, DialogShadow, DialogContent, ConfirmButton}  from "../FoodDialog/FoodDialog.js";
 import {Title} from "../Styles/title.js"
@@ -115,7 +114,7 @@ export function Login(props) {
          headers: {"Content-Type": "application/json"}})
       .then(
         (result) => {
-            if (result.status==200)
+            if (result.status===200)
             {
                 setIsOpen(false);
                 setIsLogin(true);
@@ -134,7 +133,7 @@ export function Login(props) {
            headers: {"Content-Type": "application/json"}})
         .then(
           (result) => {
-              if (result.status==200)
+              if (result.status===200)
               {
                   setIsOpen(false);
                   setIsLogin(true);
