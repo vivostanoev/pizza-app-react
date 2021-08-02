@@ -43,7 +43,7 @@ const DetailItem = styled.div`
     font-size: 10px;
 `;
 
-export function Order({orders, setOrders, setOpenFood, username, setIsOpen}) {
+export function Order({orders, setOrders, setOpenFood, username, setIsOpen,setHistory}) {
 
     const subtotal = orders.reduce((total, order) => {
         return total += getPrice(order);
@@ -54,6 +54,13 @@ export function Order({orders, setOrders, setOpenFood, username, setIsOpen}) {
         {
             setOpenFood();
             setIsOpen(true);
+        }
+        else
+        {
+            setHistory([]);
+            submitOrder(username, orders);
+            getHistory(username,setHistory);
+            setOrders([]);
         }
     }
 
@@ -112,3 +119,26 @@ export function Order({orders, setOrders, setOpenFood, username, setIsOpen}) {
             </DialogFooter>
     </OrderStyled>);
 }
+
+function getHistory(username,setHistory){
+        fetch("http://localhost:5000/api/get/orders/"+username,{method: "GET"})
+        .then((response) => response.json())
+            .then((responseJSON) => {
+               // do stuff with responseJSON here...
+                setHistory(responseJSON);
+            });
+      }
+
+function submitOrder(username,orders){
+    fetch("http://localhost:5000/api/post/order", {
+         method: "POST",
+         body: JSON.stringify([orders, {user:username}]),
+         headers: {"Content-Type": "application/json"}})
+      .then(
+        (result) => {
+
+        },
+        (error) => {
+        }
+      )
+  }

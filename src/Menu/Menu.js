@@ -10,7 +10,7 @@ export const MenuStyled = styled.div`
     margin: 0px 400px 50px 20px;
 `;
 
-export function Menu({ setOpenFood }) {
+export function MenuContainer({setOpenFood,isHistory}) {
   return (
     <MenuStyled>
       {Object.entries(foods).map(([sectionName, foods]) => (
@@ -21,6 +21,11 @@ export function Menu({ setOpenFood }) {
       ))}
     </MenuStyled>
   );
+}
+
+export function Menu(props) {
+  if (props.isHistory) return null;
+  return <MenuContainer {...props} />;
 }
 
 

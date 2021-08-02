@@ -20,7 +20,7 @@ export const LoginBar = styled(Title)`
 
 const Wrapper = styled(Dialog)`
     width: 500px;
-    max-height: 450px;
+    max-height: 600px;
 `;
 
 const Form = styled.form`
@@ -56,31 +56,29 @@ const Input = styled.input`
   }
 `;
 
-function handleSubmit() {
- console.log("gl");
-}
-
-
  function LoginForm({username, setUsername, setIsOpen, password, setPassword, setIsLogin}) {
 
  function close()
  {
     setIsOpen();
-    setUsername();
-    setPassword();
     setIsLogin();
  }
 
- function printUserCred()
+ function verifyUserCredentials()
  {
-     fetchingDate(username, password, setIsOpen,setIsLogin);
+     verifyUserCredentialsViaRestCall(username, password, setIsOpen,setIsLogin);
+ }
+
+ function createUser()
+ {
+    registerNewUser(username, password, setIsOpen,setIsLogin);
  }
 
   return (
     <>
     <DialogShadow onClick={close}/>
       <Wrapper>
-        <Form onSubmit={handleSubmit}>
+        <Form>
         <DialogContent>
             <h2> Username </h2>
           <Input
@@ -94,7 +92,8 @@ function handleSubmit() {
             name="password"
             onChange={e => setPassword(e.target.value)}
           />
-           <LoginButton onClick={()=> printUserCred()}>Login</LoginButton>
+           <LoginButton onClick={()=> verifyUserCredentials()}>Login</LoginButton>
+           <LoginButton onClick={()=> createUser()}>Register</LoginButton>
          </DialogContent>
         </Form>
       </Wrapper>
@@ -109,8 +108,8 @@ export function Login(props) {
 }
 
 
- function fetchingDate(user, pswd, setIsOpen, setIsLogin) {
-    fetch("http://localhost:5000/api/users", {
+ function verifyUserCredentialsViaRestCall(user, pswd, setIsOpen, setIsLogin) {
+    fetch("http://localhost:5000/api/auth", {
          method: "POST",
          body: JSON.stringify({username: user, password: pswd}),
          headers: {"Content-Type": "application/json"}})
@@ -126,3 +125,22 @@ export function Login(props) {
         }
       )
   }
+
+
+  function registerNewUser(user, pswd, setIsOpen, setIsLogin) {
+      fetch("http://localhost:5000/api/post/user", {
+           method: "POST",
+           body: JSON.stringify({username: user, password: pswd}),
+           headers: {"Content-Type": "application/json"}})
+        .then(
+          (result) => {
+              if (result.status==200)
+              {
+                  setIsOpen(false);
+                  setIsLogin(true);
+              }
+          },
+          (error) => {
+          }
+        )
+    }

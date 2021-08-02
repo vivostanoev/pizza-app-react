@@ -6,7 +6,6 @@ import { LoginBar } from "../Login/Login.js";
 import { useState } from "react";
 import PropTypes from 'prop-types';
 
-
 const NavbarStyled = styled.div`
     background-color:${redPizza};
     padding: 10px;
@@ -21,24 +20,34 @@ const Logo = styled(Title)`
     text-shadow: 1px 1px 4px black;
 `;
 
-export function Navbar({isLogin, setIsLogin, setIsOpen}){
+export function Navbar({isLogin, setIsLogin, setIsOpen, username, setUsername,isHistory, setIsHistory,setHistory}){
     return <NavbarStyled>
         <Logo id="title">Pizza app
         <span role="img" aria-label="pizza slice">
          🍕
          </span>
-         <LoginButton isLogin={isLogin} setIsLogin={setIsLogin} setIsOpen={setIsOpen}/>
+         <LoginButton isLogin={isLogin} setIsLogin={setIsLogin} setIsOpen={setIsOpen} username={username} setUsername={setUsername} isHistory={isHistory} setIsHistory={setIsHistory}/>
         </Logo>
     </NavbarStyled>
 }
 
-function LoginButton({isLogin,setIsLogin,setIsOpen})
+function LoginButton({isLogin,setIsLogin,setIsOpen,username, setUsername,isHistory, setIsHistory,setHistory})
 {
+    function logout()
+    {
+        setIsOpen(true);
+        setUsername();
+    }
+
     if(!isLogin){
     return (<LoginBar id="loginButton" onClick={() =>
-                        setIsOpen(true)}>Login</LoginBar>);
+                        logout()}>Login</LoginBar>);
     }else {
-        return (<LoginBar id="loginButton" onClick={() =>
-                                setIsLogin(false)}>Logout</LoginBar>);
+        return [(<LoginBar id="loginButton" onClick={() => setIsLogin(false)}>{username}/Logout</LoginBar>),
+        ,(<LoginBar onClick={() => isHistory ? setIsHistory(false) : setIsHistory(true)}>
+       {isHistory ? 'Menu': 'History'}
+       </LoginBar>)];
     }
 }
+
+
