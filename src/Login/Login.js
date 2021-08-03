@@ -81,8 +81,8 @@ const Input = styled.input`
         <DialogContent>
             <h2> Username </h2>
           <Input
-            type="email"
-            name="email"
+            type="username"
+            name="username"
             onChange={e => setUsername(e.target.value)}
           />
            <h2> Password </h2>
@@ -91,8 +91,8 @@ const Input = styled.input`
             name="password"
             onChange={e => setPassword(e.target.value)}
           />
-           <LoginButton onClick={()=> verifyUserCredentials()}>Login</LoginButton>
-           <LoginButton onClick={()=> createUser()}>Register</LoginButton>
+           <LoginButton name="login" onClick={()=> verifyUserCredentials()}>Login</LoginButton>
+           <LoginButton name="register" onClick={()=> createUser()}>Register</LoginButton>
          </DialogContent>
         </Form>
       </Wrapper>
