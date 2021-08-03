@@ -42,7 +42,7 @@ function LoginButton({isLogin,setIsLogin,setIsOpen,username, setUsername,isHisto
                         logout()}>Login</LoginBar>);
     }else {
         return [(<LoginBar id="loginButton" onClick={() => setIsLogin(false)}>{username}/Logout</LoginBar>),
-        ,(<LoginBar onClick={() => isHistory ? setIsHistory(false) : setIsHistory(true)}>
+        ,(<LoginBar name="menuOption" onClick={() => isHistory ? setIsHistory(false) : setIsHistory(true)}>
         {isHistory ? 'Menu' : 'History'}
        </LoginBar>)];
     }
