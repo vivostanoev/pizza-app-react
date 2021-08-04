@@ -9,7 +9,7 @@ pipeline {
         }
          stage('Run Pizza App') {
             steps{
-                bat "docker -p 3000:3000 -d run pizzaapp"
+                bat "docker run -d -p 3000:3000 pizzaapp"
             }
         }
     }
