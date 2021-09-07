@@ -28,7 +28,7 @@ export default function Address(props) {
 }
 
 
- function AddressForm({setIsAddress, orders}) {
+ function AddressForm({setIsAddress, orders, setOrders}) {
   const [address, setAddress] = React.useState("");
   const [phone, setPhone] = React.useState("");
   const [coordinates, setCoordinates] = React.useState({
@@ -54,6 +54,8 @@ export default function Address(props) {
    function makeOrder()
    {
         console.log(orders);
+        //submitOrder(orders);
+        //setOrders([]);
    }
 
   return (
@@ -115,4 +117,4 @@ function submitOrder(username,orders){
             console.log(error);
         }
       )
-  }
+}
