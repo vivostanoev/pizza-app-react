@@ -1,9 +1,8 @@
 import React from "react"
 import styled from "styled-components"
-import {foods} from "../Data/FoodData.js"
 import {FoodGrid, Food, FoodLabel} from "./FoodGrid"
 import {formatPrice} from "../Data/FoodData.js"
-
+import { useState, useEffect } from "react";
 
 export const MenuStyled = styled.div`
     height:1000px;
@@ -11,6 +10,25 @@ export const MenuStyled = styled.div`
 `;
 
 export function MenuContainer({setOpenFood,isHistory}) {
+  const [foods, setFoods] = useState([]);
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/api/get/foods");
+                const json = await response.json();
+                console.log(json);
+                setFoods(json);
+            } catch (error) {
+                console.log("error", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
   return (
     <MenuStyled>
       {Object.entries(foods).map(([sectionName, foods]) => (
@@ -47,5 +65,6 @@ function displayFoodSection(food, setOpenFood){
                 </FoodLabel>
             </Food>
 }
+
 
 

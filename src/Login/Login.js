@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import {Dialog, DialogShadow, DialogContent, ConfirmButton}  from "../FoodDialog/FoodDialog.js";
 import {Title} from "../Styles/title.js"
+import { useState } from "react";
 
 export const LoginBar = styled(Title)`
     font-size: 20px;
@@ -17,12 +18,12 @@ export const LoginBar = styled(Title)`
         }
 `;
 
-const Wrapper = styled(Dialog)`
+export const Wrapper = styled(Dialog)`
     width: 500px;
     max-height: 600px;
 `;
 
-const Form = styled.form`
+export const Form = styled.form`
   margin: 0 auto;
   width: 100%;
   max-width: 414px;
@@ -33,11 +34,11 @@ const Form = styled.form`
 `;
 
 const LoginButton = styled(ConfirmButton)`
-    margin: 50px;
+    margin: 15px;
     padding: 25px;
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   max-width: 100%;
   padding: 13px 15px;
   background: #f9f9fa;
@@ -57,6 +58,9 @@ const Input = styled.input`
 
  function LoginForm({username, setUsername, setIsOpen, password, setPassword, setIsLogin}) {
 
+  const [error, setError] = useState();
+
+
  function close()
  {
     setIsOpen();
@@ -65,12 +69,12 @@ const Input = styled.input`
 
  function verifyUserCredentials()
  {
-     verifyUserCredentialsViaRestCall(username, password, setIsOpen,setIsLogin);
+     verifyUserCredentialsViaRestCall(username, password, setIsOpen,setIsLogin,setError);
  }
 
  function createUser()
  {
-    registerNewUser(username, password, setIsOpen,setIsLogin);
+    registerNewUser(username, password, setIsOpen,setIsLogin, setError);
  }
 
   return (
@@ -79,7 +83,7 @@ const Input = styled.input`
       <Wrapper>
         <Form>
         <DialogContent>
-            <h2> Username </h2>
+            <h2> Email </h2>
           <Input
             type="username"
             name="username"
@@ -91,8 +95,10 @@ const Input = styled.input`
             name="password"
             onChange={e => setPassword(e.target.value)}
           />
+           <div style={{ color: 'red' }}>{error}</div>
            <LoginButton name="login" onClick={()=> verifyUserCredentials()}>Login</LoginButton>
            <LoginButton name="register" onClick={()=> createUser()}>Register</LoginButton>
+           <LoginButton name="register">Reset Password</LoginButton>
          </DialogContent>
         </Form>
       </Wrapper>
@@ -107,7 +113,7 @@ export function Login(props) {
 }
 
 
- function verifyUserCredentialsViaRestCall(user, pswd, setIsOpen, setIsLogin) {
+ function verifyUserCredentialsViaRestCall(user, pswd, setIsOpen, setIsLogin,setError) {
     fetch("http://localhost:5000/api/auth", {
          method: "POST",
          body: JSON.stringify({username: user, password: pswd}),
@@ -119,14 +125,20 @@ export function Login(props) {
                 setIsOpen(false);
                 setIsLogin(true);
             }
+            else{
+                result.json().then(data => {
+                    setError(data.message);
+                });
+            }
         },
         (error) => {
+
         }
       )
   }
 
 
-  function registerNewUser(user, pswd, setIsOpen, setIsLogin) {
+  function registerNewUser(user, pswd, setIsOpen, setIsLogin, setError) {
       fetch("http://localhost:5000/api/post/user", {
            method: "POST",
            body: JSON.stringify({username: user, password: pswd}),
@@ -137,6 +149,12 @@ export function Login(props) {
               {
                   setIsOpen(false);
                   setIsLogin(true);
+              }
+              else{
+                  result.json().then(data => {
+                    console.log(data.message);
+                    setError(data.message);
+                  });
               }
           },
           (error) => {

@@ -43,7 +43,7 @@ const DetailItem = styled.div`
     font-size: 10px;
 `;
 
-export function Order({orders, setOrders, setOpenFood, username, setIsOpen,setHistory}) {
+export function Order({orders, setOrders, setOpenFood, username, setIsOpen, dataOrder, isHistory, setIsAddress}) {
 
     const subtotal = orders.reduce((total, order) => {
         return total += getPrice(order);
@@ -57,10 +57,16 @@ export function Order({orders, setOrders, setOpenFood, username, setIsOpen,setHi
         }
         else
         {
-            setHistory([]);
-            submitOrder(username, orders);
-            getHistory(username,setHistory);
-            setOrders([]);
+            if(orders.length === 0 || orders.isEmpty)
+            {
+                alert("Please choose a food");
+            }
+            else
+            {
+                setIsAddress(true);
+            }
+            //submitOrder(username, orders);
+            //setOrders([]);
         }
     }
 
@@ -73,6 +79,11 @@ export function Order({orders, setOrders, setOpenFood, username, setIsOpen,setHi
         setOrders(newOrders);
     }
 
+    if(isHistory)
+    {
+        return historyOrder(dataOrder);
+    }
+    else{
     return (<OrderStyled>
             {orders.length === 0 ? (<OrderContent> Your order`s empty </OrderContent>)
             : (<OrderContent>
@@ -118,27 +129,36 @@ export function Order({orders, setOrders, setOpenFood, username, setIsOpen,setHi
                 <ConfirmButton onClick={() => isUserLogin()}>Checkout</ConfirmButton>
             </DialogFooter>
     </OrderStyled>);
+    }
 }
 
-function getHistory(username,setHistory){
-        fetch("http://localhost:5000/api/get/orders/"+username,{method: "GET"})
-        .then((response) => response.json())
-            .then((responseJSON) => {
-               // do stuff with responseJSON here...
-                setHistory(responseJSON);
-            });
-      }
-
-function submitOrder(username,orders){
-    fetch("http://localhost:5000/api/post/order", {
-         method: "POST",
-         body: JSON.stringify([orders, {user:username}]),
-         headers: {"Content-Type": "application/json"}})
-      .then(
-        (result) => {
-
-        },
-        (error) => {
-        }
-      )
-  }
+function historyOrder(dataOrder)
+{
+    return (<OrderStyled>
+                {dataOrder.length === 0 ? (<OrderContent> Select History Order </OrderContent>)
+                : (<OrderContent>
+                        <OrderContainer>Your Order Was: </OrderContainer>
+                        {dataOrder.map((order,index) => (
+                         <OrderContainer>
+                            <OrderItem>
+                                <div>1</div>
+                                <div>{order.original.name}</div>
+                                <div>{order.original.price}</div>
+                            </OrderItem>
+                            <DetailItem>
+                            {
+                                order.original.toppings
+                            }
+                            </DetailItem>
+                         </OrderContainer>
+                        ))}
+                        <OrderContainer>
+                            <OrderItem>
+                                <div/>
+                                <div>Price</div>
+                                <div>{dataOrder[0].original.price}</div>
+                            </OrderItem>
+                        </OrderContainer>
+                    </OrderContent>)}
+        </OrderStyled>);
+}

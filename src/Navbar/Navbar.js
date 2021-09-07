@@ -24,28 +24,45 @@ export function Navbar({isLogin, setIsLogin, setIsOpen, username, setUsername,is
         <span role="img" aria-label="pizza slice">
          🍕
          </span>
-         <LoginButton isLogin={isLogin} setIsLogin={setIsLogin} setIsOpen={setIsOpen} username={username} setUsername={setUsername} isHistory={isHistory} setIsHistory={setIsHistory}/>
+         <LoginButton isLogin={isLogin} setIsLogin={setIsLogin} setIsOpen={setIsOpen} username={username} setUsername={setUsername} isHistory={isHistory} setIsHistory={setIsHistory} setHistory={setHistory}/>
         </Logo>
     </NavbarStyled>
 }
 
 function LoginButton({isLogin,setIsLogin,setIsOpen,username, setUsername,isHistory, setIsHistory,setHistory})
 {
-    function logout()
+    function login()
     {
         setIsOpen(true);
+    }
+
+    function logout()
+    {
+        setIsLogin(false);
         setUsername();
+        setIsHistory(false);
     }
 
     if(!isLogin){
     return (<LoginBar id="loginButton" onClick={() =>
-                        logout()}>Login</LoginBar>);
+                        login()}>Login</LoginBar>);
     }else {
-        return [(<LoginBar id="loginButton" onClick={() => setIsLogin(false)}>{username}/Logout</LoginBar>),
-        ,(<LoginBar name="menuOption" onClick={() => isHistory ? setIsHistory(false) : setIsHistory(true)}>
+        return [(<LoginBar id="loginButton" onClick={() => logout()}>{username}/Logout</LoginBar>),
+        ,(<LoginBar name="menuOption" onClick={() => isHistory ? setIsHistory(false) : getHistory(username,setHistory, setIsHistory)}>
         {isHistory ? 'Menu' : 'History'}
        </LoginBar>)];
     }
 }
+
+function getHistory(username,setHistory, setIsHistory){
+        setIsHistory(true);
+
+        fetch("http://localhost:5000/api/get/orders/"+username,{method: "GET"})
+        .then((response) => response.json())
+            .then((responseJSON) => {
+               // do stuff with responseJSON here...
+                setHistory(responseJSON);
+            });
+      }
 
 

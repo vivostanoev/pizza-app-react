@@ -1,6 +1,10 @@
 import ReactTable from "react-table-6";
 import "react-table-6/react-table.css"
 import styled from "styled-components"
+import {Dialog, DialogShadow, DialogContent, ConfirmButton}  from "../FoodDialog/FoodDialog.js";
+import {Title} from "../Styles/title.js"
+
+
 
 const columns = [{
     Header: 'ID',
@@ -17,7 +21,11 @@ const columns = [{
      {
         Header: 'Price',
         accessor: 'price',
-        width: 400}
+        width: 400},
+        {
+                Header: 'Status',
+                accessor: 'status',
+                width: 400}
     ];
 
 const TableGrid = styled(ReactTable)`
@@ -27,8 +35,7 @@ const TableGrid = styled(ReactTable)`
 `;
 
 
-function HistoryContainer({username,isHistory,history}){
-
+function HistoryContainer({username,isHistory,history,setHistory, setDataOrder}){
     return (
                      <div>
                      <h1> History </h1>
@@ -37,6 +44,16 @@ function HistoryContainer({username,isHistory,history}){
                              columns={columns}
                              defaultPageSize = {10}
                              pageSizeOptions = {[10, 20, 30]}
+                             getTrGroupProps={(state, rowInfo, column, instance) => {
+                                                 if (rowInfo !== undefined) {
+                                                     return {
+                                                         onClick: (e, handleOriginal) => {
+                                                           console.log('It was in this row:', rowInfo)
+                                                           setDataOrder([rowInfo]);
+                                                         }
+                                                     }
+                                                 }}
+                                             }
                          />
                      </div>
                );
