@@ -13,7 +13,6 @@ export function MenuContainer({setOpenFood,isHistory}) {
   const [foods, setFoods] = useState([]);
 
     useEffect(() => {
-
         const fetchData = async () => {
             try {
                 const response = await fetch("http://localhost:5000/api/get/foods");

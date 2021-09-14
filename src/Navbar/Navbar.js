@@ -18,18 +18,18 @@ const Logo = styled(Title)`
     text-shadow: 1px 1px 4px black;
 `;
 
-export function Navbar({isLogin, setIsLogin, setIsOpen, username, setUsername,isHistory, setIsHistory,setHistory}){
+export function Navbar({isLogin, setIsLogin, setIsOpen, username, setUsername,isHistory, setIsHistory,setHistory, setOrders, setDataOrder}){
     return <NavbarStyled>
         <Logo id="title">Pizza app
         <span role="img" aria-label="pizza slice">
          🍕
          </span>
-         <LoginButton isLogin={isLogin} setIsLogin={setIsLogin} setIsOpen={setIsOpen} username={username} setUsername={setUsername} isHistory={isHistory} setIsHistory={setIsHistory} setHistory={setHistory}/>
+         <LoginButton isLogin={isLogin} setIsLogin={setIsLogin} setIsOpen={setIsOpen} username={username} setUsername={setUsername} isHistory={isHistory} setIsHistory={setIsHistory} setHistory={setHistory} setOrders={setOrders} setDataOrder={setDataOrder}/>
         </Logo>
     </NavbarStyled>
 }
 
-function LoginButton({isLogin,setIsLogin,setIsOpen,username, setUsername,isHistory, setIsHistory,setHistory})
+function LoginButton({isLogin,setIsLogin,setIsOpen,username, setUsername,isHistory, setIsHistory,setHistory, setOrders, setDataOrder})
 {
     function login()
     {
@@ -41,6 +41,8 @@ function LoginButton({isLogin,setIsLogin,setIsOpen,username, setUsername,isHisto
         setIsLogin(false);
         setUsername();
         setIsHistory(false);
+        setOrders([]);
+        setDataOrder([]);
     }
 
     if(!isLogin){

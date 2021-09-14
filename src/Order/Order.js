@@ -43,11 +43,33 @@ const DetailItem = styled.div`
     font-size: 10px;
 `;
 
+function getSubtotal(orders)
+{
+    return orders.reduce((total, order) => {
+            return total += getPrice(order);
+        },0);
+}
+
+function getTax(orders)
+{
+    const subtotal = getSubtotal(orders);
+
+    return subtotal * 0.10;
+}
+
+function getTotal(orders)
+{
+     const subtotal = getSubtotal(orders);
+     const tax = getTax(orders);
+
+     return subtotal + tax;
+}
+
+
+
 export function Order({orders, setOrders, setOpenFood, username, setIsOpen, dataOrder, isHistory, setIsAddress}) {
 
-    const subtotal = orders.reduce((total, order) => {
-        return total += getPrice(order);
-    },0);
+    const subtotal = getSubtotal(orders);
 
     function isUserLogin(){
         if(!username)
@@ -65,8 +87,6 @@ export function Order({orders, setOrders, setOpenFood, username, setIsOpen, data
             {
                 setIsAddress(true);
             }
-            //submitOrder(username, orders);
-            //setOrders([]);
         }
     }
 
@@ -119,9 +139,14 @@ export function Order({orders, setOrders, setOpenFood, username, setIsOpen, data
                             <div>{formatPrice(tax)}</div>
                         </OrderItem>
                         <OrderItem>
+                        <div/>
+                            <div>Delivery</div>
+                            <div>{formatPrice(2)}</div>
+                        </OrderItem>
+                        <OrderItem>
                             <div/>
                             <div>Total</div>
-                            <div>{formatPrice(total)}</div>
+                            <div>{formatPrice(total + 2)}</div>
                         </OrderItem>
                     </OrderContainer>
                 </OrderContent>)}
@@ -134,6 +159,7 @@ export function Order({orders, setOrders, setOpenFood, username, setIsOpen, data
 
 function historyOrder(dataOrder)
 {
+    console.log(dataOrder);
     return (<OrderStyled>
                 {dataOrder.length === 0 ? (<OrderContent> Select History Order </OrderContent>)
                 : (<OrderContent>
@@ -142,12 +168,12 @@ function historyOrder(dataOrder)
                          <OrderContainer>
                             <OrderItem>
                                 <div>1</div>
-                                <div>{order.original.name}</div>
-                                <div>{order.original.price}</div>
+                                <div>{order.name}</div>
+                                <div>{formatPrice(getPrice(order))}</div>
                             </OrderItem>
                             <DetailItem>
                             {
-                                order.original.toppings
+                                order.toppings.filter(t => t.checked).map(topping => topping.name).join(", ")
                             }
                             </DetailItem>
                          </OrderContainer>
@@ -155,9 +181,24 @@ function historyOrder(dataOrder)
                         <OrderContainer>
                             <OrderItem>
                                 <div/>
-                                <div>Price</div>
-                                <div>{dataOrder[0].original.price}</div>
+                                <div>Sub-Total</div>
+                                <div>{formatPrice(getSubtotal(dataOrder))}</div>
                             </OrderItem>
+                            <OrderItem>
+                                <div/>
+                                <div>Tax</div>
+                                <div>{formatPrice(getTax(dataOrder))}</div>
+                            </OrderItem>
+                            <OrderItem>
+                            <div/>
+                                <div>Delivery</div>
+                                <div>{formatPrice(2)}</div>
+                            </OrderItem>
+                            <OrderItem>
+                                <div/>
+                                <div>Total</div>
+                                <div>{formatPrice(getTotal(dataOrder) + 2)}</div>
+                             </OrderItem>
                         </OrderContainer>
                     </OrderContent>)}
         </OrderStyled>);

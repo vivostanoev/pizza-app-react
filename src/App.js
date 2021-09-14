@@ -37,11 +37,11 @@ function App() {
     <>
         <GlobalStyle/>
         <FoodDialog {...openFood} {...orders}/>
-        <Navbar {...isLoginUser} {...isLoginFormOpen} {...user} {...isHistory} {...histories}/>
+        <Navbar {...isLoginUser} {...isLoginFormOpen} {...user} {...isHistory} {...histories} {...orders} {...historyOrder}/>
         <Login {...user} {...isLoginFormOpen} {...userPassword} {...isLoginUser}/>
         <Order {...orders} {...openFood} {...user} {...isLoginFormOpen} {...historyOrder} {...isHistory} {...address}/>
         <Banner/>
-        <Address {...address} {...orders}/>
+        <Address {...address} {...orders} {...user}/>
         <History {...user} {...isHistory} {...histories} {...historyOrder}/>
         <Menu {...openFood} {...isHistory}/>
     </>

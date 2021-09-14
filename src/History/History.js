@@ -7,21 +7,17 @@ import {Title} from "../Styles/title.js"
 
 
 const columns = [{
-    Header: 'ID',
-    accessor: 'id',
+    Header: 'Date',
+    accessor: 'date',
      width: 400,},
     {
-    Header: 'Pizza Name',
-    accessor: 'name',
+    Header: 'Address',
+    accessor: 'address',
     width: 400},
     {
-       Header: 'Toppings',
-       accessor: 'toppings',
+       Header: 'Phone',
+       accessor: 'phone',
        width: 400},
-     {
-        Header: 'Price',
-        accessor: 'price',
-        width: 400},
         {
                 Header: 'Status',
                 accessor: 'status',
@@ -48,8 +44,8 @@ function HistoryContainer({username,isHistory,history,setHistory, setDataOrder})
                                                  if (rowInfo !== undefined) {
                                                      return {
                                                          onClick: (e, handleOriginal) => {
-                                                           console.log('It was in this row:', rowInfo)
-                                                           setDataOrder([rowInfo]);
+                                                           console.log('It was in this row:', rowInfo.original.orders)
+                                                           setDataOrder(rowInfo.original.orders);
                                                          }
                                                      }
                                                  }}
