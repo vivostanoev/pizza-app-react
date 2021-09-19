@@ -10,6 +10,7 @@ import { Toppings } from "./Toppings";
 import { useToppings } from "../Hooks/useToppings";
 import { useChoice } from "../Hooks/useChoice";
 import { Choices } from "./Choices";
+import { useState, useEffect } from "react";
 
 
 export const Dialog = styled.div`
@@ -88,14 +89,35 @@ export function getPrice(order){
 }
 
 function hasToppings(food) {
-  return food.section === "Pizza";
+  return food.section === "Pizza" || food.section==="Sandwich";
 }
+
+
+
 
 export function FoodDialogContainer({ openFood, setOpenFood, setOrders, orders }) {
       const quantity = useQuantity(openFood && openFood.quantity);
-      const toppings = useToppings(openFood.toppings);
+      const toppings = useToppings();
       const choiceRadio = useChoice(openFood.choice);
       const isEditing = openFood.index > -1;
+
+
+          useEffect(() => {
+           if(toppings.toppings == null || toppings.toppings.isEmpty || toppings.toppings.length == 0){
+                    const fetchData = async () => {
+                        try {
+                            const response = await fetch("http://localhost:5000/api/get/toppings");
+                            const json = await response.json();
+                            json.map(topping => topping.checked = false);
+                            toppings.setToppings(json);
+                        } catch (error) {
+
+                        }
+                    };
+
+
+                    return fetchData();
+                }}, []);
 
     function close() {
         setOpenFood();

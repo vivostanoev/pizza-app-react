@@ -159,7 +159,6 @@ export function Order({orders, setOrders, setOpenFood, username, setIsOpen, data
 
 function historyOrder(dataOrder)
 {
-    console.log(dataOrder);
     return (<OrderStyled>
                 {dataOrder.length === 0 ? (<OrderContent> Select History Order </OrderContent>)
                 : (<OrderContent>

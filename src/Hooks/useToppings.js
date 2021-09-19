@@ -1,9 +1,8 @@
 import { useState } from "react";
 
 export function useToppings(defaultTopping) {
-  const [toppings, setToppings] = useState(
-    defaultTopping || getDefaultToppings()
-  );
+
+  const [toppings, setToppings] = useState([]);
 
   function checkTopping(index) {
     const newToppings = [...toppings];
@@ -13,27 +12,7 @@ export function useToppings(defaultTopping) {
 
   return {
     checkTopping,
-    toppings
+    toppings,
+    setToppings
   };
-}
-
-const toppingsList = [
-  "Extra Cheese",
-  "Pepperoni",
-  "Sausage",
-  "Onions",
-  "Peppers",
-  "Pineapple",
-  "Ham",
-  "Spinach",
-  "Artichokes",
-  "Mushrooms",
-  "Anchovies"
-];
-
-function getDefaultToppings() {
-  return toppingsList.map(topping => ({
-    name: topping,
-    checked: false
-  }));
 }

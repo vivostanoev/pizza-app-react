@@ -17,10 +17,9 @@ export function MenuContainer({setOpenFood,isHistory}) {
             try {
                 const response = await fetch("http://localhost:5000/api/get/foods");
                 const json = await response.json();
-                console.log(json);
                 setFoods(json);
             } catch (error) {
-                console.log("error", error);
+
             }
         };
 
@@ -60,7 +59,7 @@ function displayFoodSection(food, setOpenFood){
     return <Food img={food.img} onClick={() => {setOpenFood(food);}}>
                 <FoodLabel>
                 <div>{food.name}</div>
-                <div>{formatPrice(food.price)}</div>
+                <div>{formatPrice(parseInt(food.price))}</div>
                 </FoodLabel>
             </Food>
 }
