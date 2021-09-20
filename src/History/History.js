@@ -44,7 +44,6 @@ function HistoryContainer({username,isHistory,history,setHistory, setDataOrder})
                                                  if (rowInfo !== undefined) {
                                                      return {
                                                          onClick: (e, handleOriginal) => {
-                                                           console.log('It was in this row:', rowInfo.original.orders)
                                                            setDataOrder(rowInfo.original.orders);
                                                          }
                                                      }
